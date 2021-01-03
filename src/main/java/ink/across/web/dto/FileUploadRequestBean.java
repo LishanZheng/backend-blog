@@ -1,4 +1,4 @@
-package ink.across.web.bean;
+package ink.across.web.dto;
 
 
 import lombok.AllArgsConstructor;
