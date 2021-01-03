@@ -9,13 +9,13 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class File {
+public class File_ {
     private Integer id;
     private String FileName;
     private String path;
     private String size;
     private String type;
     private String url;
-    private Integer downCounts;
-    private Date uploadTime;
+    private String uploadTime;
+    private Integer state;
 }
