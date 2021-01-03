@@ -21,7 +21,7 @@ public class FileServiceImp implements FileService {
     FileMapper fileMapper;
 
     @Override
-    public File_ UploadFile(MultipartFile file, String path) throws IOException {
+    public void UploadFile(MultipartFile file, String path) throws IOException {
 
         String uploadTime = sdf.format(new Date());
         String fileName = uploadTime + file.getOriginalFilename();
@@ -33,8 +33,7 @@ public class FileServiceImp implements FileService {
         String url = path + fileName;
         String size = file.getSize() + "Kb";
         String type = fileName.split("\\.")[1];
-//        return fileMapper.uploadFile(fileName, path, size, type, url, uploadTime, 1);
-        File_ file_ = new File_(1, fileName, path, size, type, url, uploadTime, 1);
-        return file_;
+        fileMapper.uploadFile(fileName, path, size, type, url, uploadTime, 1);
+//        File_ file_ = new File_(1, fileName, path, size, type, url, uploadTime, 1);
     }
 }

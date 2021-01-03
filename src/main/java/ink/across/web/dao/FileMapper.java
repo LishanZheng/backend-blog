@@ -8,8 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FileMapper {
 
-    @Insert("")
-    File_ uploadFile(String fileName, String path, String size, String type,
+    void uploadFile(String fileName, String path, String size, String type,
                      String url, String uploadTime, Integer state);
 
 }

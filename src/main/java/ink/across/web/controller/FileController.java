@@ -30,7 +30,7 @@ public class FileController {
         if (file == null) {
             return Result.error("请选择文件");
         }
-        File_ receivedFile = fileService.UploadFile(file, path);
-        return Result.success(receivedFile);
+        fileService.UploadFile(file, path);
+        return Result.success();
     }
 }
