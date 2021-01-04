@@ -1,12 +1,12 @@
 package ink.across.web.service;
 
+
 import ink.across.web.entity.File_;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-
+import java.util.List;
 
 public interface FileService {
 
-    void UploadFile(MultipartFile file, String path) throws IOException;
+    List<File_> getFileList(String path) throws IOException;
 }

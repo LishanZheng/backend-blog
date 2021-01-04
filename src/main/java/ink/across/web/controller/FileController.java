@@ -2,11 +2,13 @@ package ink.across.web.controller;
 
 import ink.across.web.dto.FilePathRequestBean;
 import ink.across.web.dto.FileUploadRequestBean;
+import ink.across.web.entity.File_;
 import ink.across.web.entity.Response;
 import ink.across.web.service.FileService;
 import ink.across.web.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -79,20 +80,9 @@ public class FileController {
     @ResponseBody
     public Response fileGetByPath(FilePathRequestBean filePathRequestBean) throws IOException{
         String path = ResourceUtils.getURL("classpath:").getPath()
-                + "/" + filePathRequestBean.getPath();
+                 + filePathRequestBean.getPath();
 
-        File file = new File(path);
-        if(!file.exists()){
-            return Result.error("没有该目录");
-        }
-        File[] files = file.listFiles();
-        List<String> list = new LinkedList<>();
-        if(files != null) {
-            for (File f : files) {
-                System.out.println(f.getName());
-                list.add(f.getName());
-            }
-        }
+        List<File_> list = fileService.getFileList(path);
         return Result.success(list);
     }
 }
