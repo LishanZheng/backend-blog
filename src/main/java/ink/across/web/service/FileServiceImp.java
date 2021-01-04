@@ -5,12 +5,13 @@ import ink.across.web.entity.File_;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class FileServiceImp implements FileService {
@@ -21,19 +22,35 @@ public class FileServiceImp implements FileService {
     FileMapper fileMapper;
 
     @Override
-    public void UploadFile(MultipartFile file, String path) throws IOException {
+    public List<File_> getFileList(String path) throws IOException{
 
-        String uploadTime = sdf.format(new Date());
-        String fileName = uploadTime + file.getOriginalFilename();
-        String newPath = ResourceUtils.getURL("classpath:").getPath() + path + fileName;;
-        File newFile = new File(newPath);
-        if(newFile.mkdirs()){
-            file.transferTo(newFile);
+        File file = new File(path);
+        if(!file.exists()){
+            return null;
         }
-        String url = path + fileName;
-        String size = file.getSize() + "Kb";
-        String type = fileName.split("\\.")[1];
-        fileMapper.uploadFile(fileName, path, size, type, url, uploadTime, 1);
-//        File_ file_ = new File_(1, fileName, path, size, type, url, uploadTime, 1);
+        File[] files = file.listFiles();
+        List<File_> list = new LinkedList<>();
+        String uploadTime = sdf.format(new Date());
+        String newPath = ResourceUtils.getURL("classpath:").getPath() + path;;
+        if(files != null) {
+            for (int i = 0;i < files.length;i++) {
+                File_ file_ = new File_();
+                file_.setFilename(files[i].getName());
+                file_.setId(i);
+                file_.setPath(path + "/" + files[i].getName());
+                String[] type = file_.getFilename().split("\\.");
+                if(type.length == 1) {
+                    file_.setType("文件夹");
+                    file_.setSize(" ");
+                } else {
+                    file_.setType(type[1]);
+                    file_.setSize(files[i].length() + "KB");
+                }
+                file_.setUploadTime(uploadTime);
+                file_.setUrl(newPath + file_.getFilename());
+                list.add(file_);
+            }
+        }
+        return list;
     }
 }

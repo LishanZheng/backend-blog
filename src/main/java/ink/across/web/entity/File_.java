@@ -11,11 +11,10 @@ import java.util.Date;
 @NoArgsConstructor
 public class File_ {
     private Integer id;
-    private String FileName;
+    private String filename;
     private String path;
     private String size;
     private String type;
     private String url;
     private String uploadTime;
-    private Integer state;
 }
