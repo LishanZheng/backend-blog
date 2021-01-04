@@ -25,9 +25,12 @@ public class FileServiceImp implements FileService {
 
         String uploadTime = sdf.format(new Date());
         String fileName = uploadTime + file.getOriginalFilename();
-        String newPath = ResourceUtils.getURL("classpath:").getPath() + path + fileName;;
+        String newPath = ResourceUtils.getURL("classpath:").getPath() + path;;
         File newFile = new File(newPath);
-        if(newFile.mkdirs()){
+        if(!newFile.exists()){
+            if(newFile.mkdirs()){
+                newFile.createNewFile();
+            }
             file.transferTo(newFile);
         }
         String url = path + fileName;
