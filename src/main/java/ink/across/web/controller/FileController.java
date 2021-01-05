@@ -1,5 +1,6 @@
 package ink.across.web.controller;
 
+import ink.across.web.dto.FileMkdirRequestBean;
 import ink.across.web.dto.FilePathRequestBean;
 import ink.across.web.dto.FileUploadRequestBean;
 import ink.across.web.entity.File_;
@@ -29,6 +30,7 @@ public class FileController {
     @ResponseBody
     public Response fileUpload(FileUploadRequestBean fileUploadRequestBean) throws IOException{
         MultipartFile[] files = fileUploadRequestBean.getFiles();
+        System.out.println(fileUploadRequestBean);
         String path = ResourceUtils.getURL("classpath:").getPath()
                 + fileUploadRequestBean.getPath();
         for (MultipartFile file : files) {
@@ -43,8 +45,22 @@ public class FileController {
                 return Result.error("文件上传失败：" + fileName);
             }
         }
-//        fileService.UploadFile(file, path);
         return Result.success();
+    }
+
+    @RequestMapping("/mkdir")
+    @ResponseBody
+    public Response fileMkdir(FileMkdirRequestBean fileMkdirRequestBean) throws IOException{
+        String filename = fileMkdirRequestBean.getFilename();
+        String path = ResourceUtils.getURL("classpath:").getPath()
+                + fileMkdirRequestBean.getPath() + "/" + filename;
+        System.out.println(filename + path);
+        File dest = new File(path);
+        if (!dest.exists())
+            if (dest.mkdirs())
+                return Result.success();
+
+        return Result.error("文件夹创建失败");
     }
 
     @RequestMapping("/delete")
