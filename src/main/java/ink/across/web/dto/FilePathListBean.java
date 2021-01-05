@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class FilePathRequestBean {
+@NoArgsConstructor
+public class FilePathListBean {
 
-    private String path;
+    private List<String> paths;
 }
