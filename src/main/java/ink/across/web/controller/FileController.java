@@ -1,6 +1,6 @@
 package ink.across.web.controller;
 
-import ink.across.web.dto.FileDeleteByPathList;
+import ink.across.web.dto.FilePathListBean;
 import ink.across.web.dto.FileMkdirRequestBean;
 import ink.across.web.dto.FilePathRequestBean;
 import ink.across.web.dto.FileUploadRequestBean;
@@ -10,14 +10,11 @@ import ink.across.web.service.FileService;
 import ink.across.web.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpServletResponse;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 @RestController
@@ -64,7 +61,7 @@ public class FileController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Response fileDeleteByPath(FileDeleteByPathList fileDeleteByPathList) {
+    public Response fileDeleteByPath(FilePathListBean fileDeleteByPathList) {
         List<String> pathList = fileDeleteByPathList.getPaths();
         for (String s : pathList) {
             File file = new File(s);
@@ -99,5 +96,38 @@ public class FileController {
 
         List<File_> list = fileService.getFileList(path);
         return Result.success(list);
+    }
+
+    @RequestMapping("/download")
+    @ResponseBody
+    public Response fileDownLoad(HttpServletResponse response, FilePathListBean filePathListBean) {
+        List<String> pathList = filePathListBean.getPaths();
+        System.out.println(response);
+        for (String s : pathList) {
+            File file = new File(s);
+            if (!file.exists()) {
+                return Result.error("文件不存在");
+            }
+            String[] fileSplit = s.split("/");
+            String fileName = fileSplit[fileSplit.length - 1];
+            response.reset();
+            response.setContentType("application/octet-stream");
+            response.setCharacterEncoding("utf-8");
+            response.setContentLength((int) file.length());
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+
+            try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));) {
+                byte[] buff = new byte[1024];
+                OutputStream os = response.getOutputStream();
+                int i = 0;
+                while ((i = bis.read(buff)) != -1) {
+                    os.write(buff, 0, i);
+                    os.flush();
+                }
+            } catch (IOException e) {
+                return Result.error("下载失败");
+            }
+        }
+        return Result.success();
     }
 }

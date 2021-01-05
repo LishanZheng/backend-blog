@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileDeleteByPathList {
+public class FilePathListBean {
 
     private List<String> paths;
 }
