@@ -1,5 +1,6 @@
 package ink.across.web.controller;
 
+import ink.across.web.dto.FileDeleteByPathList;
 import ink.across.web.dto.FileMkdirRequestBean;
 import ink.across.web.dto.FilePathRequestBean;
 import ink.across.web.dto.FileUploadRequestBean;
@@ -30,7 +31,6 @@ public class FileController {
     @ResponseBody
     public Response fileUpload(FileUploadRequestBean fileUploadRequestBean) throws IOException{
         MultipartFile[] files = fileUploadRequestBean.getFiles();
-        System.out.println(fileUploadRequestBean);
         String path = ResourceUtils.getURL("classpath:").getPath()
                 + fileUploadRequestBean.getPath();
         for (MultipartFile file : files) {
@@ -54,7 +54,6 @@ public class FileController {
         String filename = fileMkdirRequestBean.getFilename();
         String path = ResourceUtils.getURL("classpath:").getPath()
                 + fileMkdirRequestBean.getPath() + "/" + filename;
-        System.out.println(filename + path);
         File dest = new File(path);
         if (!dest.exists())
             if (dest.mkdirs())
@@ -65,31 +64,31 @@ public class FileController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Response fileDeleteByPath(FilePathRequestBean filePathRequestBean) throws Exception {
-        String path = ResourceUtils.getURL("classpath:").getPath()
-                + "/" + filePathRequestBean.getPath();
-
-        File file = new File(path);
-        FileDelete(file);
+    public Response fileDeleteByPath(FileDeleteByPathList fileDeleteByPathList) {
+        List<String> pathList = fileDeleteByPathList.getPaths();
+        for (String s : pathList) {
+            File file = new File(s);
+            if (!fileDelete(file))
+                return Result.error("删除失败" + file.getName());
+        }
         return Result.success();
     }
 
-    public void FileDelete(File file) {
+    public Boolean fileDelete(File file) {
         if (!file.exists()){
-            System.out.println("目录不存在");
-            return;
+            return false;
         }
         File[] files = file.listFiles();
         if (files != null) {
             for (File f : files) {
                 if (f.isDirectory()){
-                    FileDelete(f);
+                    fileDelete(f);
                 } else {
                     f.delete();
                 }
             }
         }
-        file.delete();
+        return file.delete();
     }
 
     @RequestMapping("/get")
