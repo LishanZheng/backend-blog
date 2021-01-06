@@ -8,14 +8,16 @@ import ink.across.web.entity.File_;
 import ink.across.web.entity.Response;
 import ink.across.web.service.FileService;
 import ink.across.web.util.Result;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
 import java.util.List;
+
+import static ink.across.web.constant.GlobalResponseCode.URL;
 
 @RestController
 @RequestMapping("/file")
@@ -24,22 +26,22 @@ public class FileController {
     @Autowired
     FileService fileService;
 
+
     @RequestMapping("/upload")
     @ResponseBody
     public Response fileUpload(FileUploadRequestBean fileUploadRequestBean) throws IOException{
         MultipartFile[] files = fileUploadRequestBean.getFiles();
-        String path = ResourceUtils.getURL("classpath:").getPath()
-                + fileUploadRequestBean.getPath();
+        String path = URL + fileUploadRequestBean.getPath();
         for (MultipartFile file : files) {
             String fileName = file.getOriginalFilename();
             File dest = new File(path + "/" + fileName);
             if (!dest.getParentFile().exists()) {
-                dest.getParentFile().mkdirs();
+                dest.getParentFile();
             }
             try {
-                file.transferTo(dest);
+                FileUtils.copyInputStreamToFile(file.getInputStream(), dest);
             } catch (Exception e) {
-                return Result.error("文件上传失败：" + fileName);
+                return Result.error(e.toString());
             }
         }
         return Result.success();
@@ -49,12 +51,11 @@ public class FileController {
     @ResponseBody
     public Response fileMkdir(FileMkdirRequestBean fileMkdirRequestBean) throws IOException{
         String filename = fileMkdirRequestBean.getFilename();
-        String path = ResourceUtils.getURL("classpath:").getPath()
-                + fileMkdirRequestBean.getPath() + "/" + filename;
+        String path = URL + fileMkdirRequestBean.getPath() + "/" + filename;
         File dest = new File(path);
         if (!dest.exists())
             if (dest.mkdirs())
-                return Result.success();
+                return Result.success(path);
 
         return Result.error("文件夹创建失败");
     }
@@ -91,8 +92,7 @@ public class FileController {
     @RequestMapping("/get")
     @ResponseBody
     public Response fileGetByPath(FilePathRequestBean filePathRequestBean) throws IOException{
-        String path = ResourceUtils.getURL("classpath:").getPath()
-                 + filePathRequestBean.getPath();
+        String path = URL + filePathRequestBean.getPath();
 
         List<File_> list = fileService.getFileList(path);
         return Result.success(list);
@@ -102,7 +102,6 @@ public class FileController {
     @ResponseBody
     public Response fileDownLoad(HttpServletResponse response, FilePathListBean filePathListBean) {
         List<String> pathList = filePathListBean.getPaths();
-        System.out.println(response);
         for (String s : pathList) {
             File file = new File(s);
             if (!file.exists()) {
