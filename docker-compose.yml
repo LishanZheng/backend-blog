@@ -1,11 +1,17 @@
-#version: "1.0"
-#
-#networks:
-#  my-bridge:
-#    external:
-#      name: my-bridge
-#
-#services:
-#  spring-backend:
-#    build: .
-#    image:å
+version: "1.0"
+
+networks:
+  my-bridge:
+    external:
+      name: my-bridge
+
+services:
+  spring-backend:
+    build: .
+    image: spring-backend
+    container_name: spring-backend
+    restart: always
+    networks:
+      - my-bridge
+    ports:
+      - 8080:8080
