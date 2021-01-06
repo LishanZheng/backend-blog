@@ -1,0 +1,11 @@
+#version: "1.0"
+#
+#networks:
+#  my-bridge:
+#    external:
+#      name: my-bridge
+#
+#services:
+#  spring-backend:
+#    build: .
+#    image:å
