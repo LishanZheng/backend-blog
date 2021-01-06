@@ -3,7 +3,7 @@ version: "3.8"
 networks:
   my-bridge:
     external:
-      name: my-bridge
+      name: host
 
 services:
   spring-backend:
@@ -12,6 +12,6 @@ services:
     container_name: spring-backend
     restart: always
     networks:
-      - my-bridge
+      - host
     ports:
       - 8080:8080
