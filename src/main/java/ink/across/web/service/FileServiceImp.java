@@ -1,6 +1,5 @@
 package ink.across.web.service;
 
-import ink.across.web.dao.FileMapper;
 import ink.across.web.entity.File_;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,6 @@ public class FileServiceImp implements FileService {
 
     SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd" );
 
-    @Autowired
-    FileMapper fileMapper;
 
     @Override
     public List<File_> getFileList(String path) throws IOException{

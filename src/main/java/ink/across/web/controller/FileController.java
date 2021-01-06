@@ -43,7 +43,6 @@ public class FileController {
                 return Result.error("文件上传失败：" + fileName);
             }
         }
-//        fileService.UploadFile(file, path);
         return Result.success();
     }
 
@@ -68,9 +67,8 @@ public class FileController {
             for (File f : files) {
                 if (f.isDirectory()){
                     FileDelete(f);
-                } else {
+                } else
                     f.delete();
-                }
             }
         }
         file.delete();

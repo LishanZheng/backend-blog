@@ -1,7 +1,5 @@
 package ink.across.web.dao;
 
-import ink.across.web.entity.File_;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 
