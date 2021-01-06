@@ -6,7 +6,6 @@ services:
     image: spring-backend
     container_name: spring-backend
     restart: always
-    networks:
-      - host
+    network_mode: "host"
     ports:
       - 8080:8080
