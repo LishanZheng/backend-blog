@@ -2,8 +2,11 @@ package ink.across.web.config;
 
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.io.FileNotFoundException;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
@@ -23,4 +26,5 @@ public class CorsConfig implements WebMvcConfigurer {
                 // 支持的域
                 .allowedOrigins("*");
     }
+
 }
