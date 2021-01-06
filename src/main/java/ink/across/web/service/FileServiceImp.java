@@ -28,14 +28,13 @@ public class FileServiceImp implements FileService {
         File[] files = file.listFiles();
         List<File_> list = new LinkedList<>();
         String uploadTime = sdf.format(new Date());
-        String newPath = ResourceUtils.getURL("classpath:").getPath() + path;;
         if(files != null) {
             for (int i = 0;i < files.length;i++) {
                 File_ file_ = new File_();
-                file_.setFilename(files[i].getName());
                 file_.setId(i);
                 file_.setPath(path + "/" + files[i].getName());
-                String[] type = file_.getFilename().split("\\.");
+                String[] type = files[i].getName().split("\\.");
+                file_.setFilename(type[0]);
                 if(type.length == 1) {
                     file_.setType("文件夹");
                     file_.setSize(" ");
@@ -44,7 +43,7 @@ public class FileServiceImp implements FileService {
                     file_.setSize(files[i].length() + "KB");
                 }
                 file_.setUploadTime(uploadTime);
-                file_.setUrl(newPath + file_.getFilename());
+                file_.setUrl(file_.getPath());
                 list.add(file_);
             }
         }
