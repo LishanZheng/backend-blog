@@ -7,13 +7,6 @@ import java.io.FileNotFoundException;
 public class GlobalResponseCode {
     public final static String SUCCESS = "0000";
     public final static String FAILED = "4000";
-    public static String URL = null;
+    public final static String URL = "static/";
 
-    static {
-        try {
-            URL = ResourceUtils.getURL("classpath:").getPath();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 }

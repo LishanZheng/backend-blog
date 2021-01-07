@@ -1,0 +1,4 @@
+docker run -d -e PORT=8081 -e MYSQL_HOST=121.196.174.189 -e MYSQL_USER=root -e MYSQL_PASSWORD=pppppassword -v /etc/localtime:/etc/localtime:ro -v /var/run/docker.sock:/var/run/docker.sock -v /root/.ssh:/root/.ssh --net host --name auto-deploy-docker ixuewen/auto-deploy
+
+
+ssh-keygen -t rsa -C "602868253@qq.com"  

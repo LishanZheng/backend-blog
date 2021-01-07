@@ -81,7 +81,6 @@ public class FileController {
     @RequestMapping("/get")
     @ResponseBody
     public Response fileGetByPath(FilePathRequestBean filePathRequestBean) throws IOException{
-        System.out.println(URL);
         String path = URL + filePathRequestBean.getPath();
 
         List<File_> list = fileService.getFileList(path);
