@@ -10,14 +10,17 @@ import ink.across.web.service.FileService;
 import ink.across.web.util.Result;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 import static ink.across.web.constant.GlobalResponseCode.URL;
 
@@ -78,6 +81,7 @@ public class FileController {
     @RequestMapping("/get")
     @ResponseBody
     public Response fileGetByPath(FilePathRequestBean filePathRequestBean) throws IOException{
+        System.out.println(URL);
         String path = URL + filePathRequestBean.getPath();
 
         List<File_> list = fileService.getFileList(path);
@@ -99,9 +103,8 @@ public class FileController {
 
     @RequestMapping("/download")
     @ResponseBody
-    public Response fileDownLoad(HttpServletResponse response, FilePathListBean filePathListBean) {
+    public Response fileDownLoad(FilePathListBean filePathListBean, HttpServletResponse response) {
         List<String> pathList = filePathListBean.getPaths();
-        System.out.println(response);
         for (String s : pathList) {
             File file = new File(s);
             if (!file.exists()) {
@@ -110,6 +113,7 @@ public class FileController {
             String[] fileSplit = s.split("/");
             String fileName = fileSplit[fileSplit.length - 1];
             response.reset();
+            response.addHeader("Access-Control-Allow-Origin", "*");
             response.setContentType("application/octet-stream");
             response.setCharacterEncoding("utf-8");
             response.setContentLength((int) file.length());
