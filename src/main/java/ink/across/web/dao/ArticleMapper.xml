@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ink.across.web.dao.ArticleMapper">
+    <select id="getArticleList" parameterType="ink.across.web.entity.Article" resultType="ink.across.web.entity.Article">
+        select * from article where state = #{state}
+    </select>
+</mapper>

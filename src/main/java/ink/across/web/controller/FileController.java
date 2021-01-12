@@ -1,9 +1,9 @@
 package ink.across.web.controller;
 
-import ink.across.web.dto.FileMkdirRequestBean;
-import ink.across.web.dto.FilePathListBean;
-import ink.across.web.dto.FilePathRequestBean;
-import ink.across.web.dto.FileUploadRequestBean;
+import ink.across.web.dto.file.FileMkdirRequestBean;
+import ink.across.web.dto.file.FilePathListBean;
+import ink.across.web.dto.file.FilePathRequestBean;
+import ink.across.web.dto.file.FileUploadRequestBean;
 import ink.across.web.entity.File_;
 import ink.across.web.entity.Response;
 import ink.across.web.service.FileService;
