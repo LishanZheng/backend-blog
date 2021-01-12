@@ -1,4 +1,4 @@
-package ink.across.web.dto;
+package ink.across.web.dto.file;
 
 
 import lombok.AllArgsConstructor;
