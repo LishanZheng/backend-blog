@@ -21,6 +21,7 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+
     @RequestMapping("/get")
     @ResponseBody
     public Response getArticleList(ArticleListRequestBean articleListRequestBean){
