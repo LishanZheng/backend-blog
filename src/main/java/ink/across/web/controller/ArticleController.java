@@ -2,6 +2,7 @@ package ink.across.web.controller;
 
 import ink.across.web.dto.article.ArticleListRequestBean;
 import ink.across.web.dto.article.ArticleListRespBean;
+import ink.across.web.dto.article.ArticleRequestBean;
 import ink.across.web.entity.Article;
 import ink.across.web.entity.Response;
 import ink.across.web.service.ArticleService;
@@ -36,5 +37,15 @@ public class ArticleController {
         articleListRespBean.setArticleList(articleList);
         articleListRespBean.setTotalPage(totalPage);
         return Result.success(articleListRespBean);
+    }
+
+
+    @RequestMapping("/getById")
+    @ResponseBody
+    public Response getArticleById(ArticleRequestBean articleRequestBean){
+        Integer id = articleRequestBean.getId();
+
+        Article article = articleService.getArticleBy(id);
+        return Result.success(article);
     }
 }

@@ -26,4 +26,10 @@ public class ArticleServiceImp implements ArticleService {
         map.put("totalPage", page.getPages());
         return map;
     }
+
+    @Override
+    public Article getArticleBy(Integer id) {
+        Article article = articleMapper.getArticleBy(id);
+        return article;
+    }
 }

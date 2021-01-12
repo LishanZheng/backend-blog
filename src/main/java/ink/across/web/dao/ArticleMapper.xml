@@ -6,4 +6,8 @@
     <select id="getArticleList" parameterType="ink.across.web.entity.Article" resultType="ink.across.web.entity.Article">
         select * from article where state = #{state}
     </select>
+
+    <select id="getArticleBy" parameterType="ink.across.web.entity.Article" resultType="ink.across.web.entity.Article">
+        select * from article where (state = 1 and id = #{id} )
+    </select>
 </mapper>
