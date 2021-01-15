@@ -33,11 +33,13 @@ public class FileServiceImp implements FileService {
                 file_.setPath(path + "/" + files[i].getName());
                 String[] type = files[i].getName().split("\\.");
                 file_.setFilename(type[0]);
-                if(type.length == 1)
+                if(type.length == 1) {
+                    file_.setSize("");
                     file_.setType("文件夹");
-                 else
+                } else {
                     file_.setType(type[1]);
-                file_.setSize(files[i].length() + "");
+                    file_.setSize(files[i].length() + "");
+                }
                 file_.setUploadTime(uploadTime);
                 file_.setUrl(file_.getPath());
                 list.add(file_);
