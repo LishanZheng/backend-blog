@@ -1,9 +1,7 @@
 package ink.across.web.service;
 
 import ink.across.web.entity.File_;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +38,7 @@ public class FileServiceImp implements FileService {
                     file_.setSize(" ");
                 } else {
                     file_.setType(type[1]);
-                    file_.setSize(files[i].length() + "KB");
+                    file_.setSize(files[i].length() + "");
                 }
                 file_.setUploadTime(uploadTime);
                 file_.setUrl(file_.getPath());
